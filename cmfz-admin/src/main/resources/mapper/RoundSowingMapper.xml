@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.cmfz.dao.RoundSowingDao">
+
+    <select id="selectRSAll" resultType="com.baizhi.cmfz.entity.RoundSowing">
+        select * from roundsowing limit #{begin},#{end}
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*) from roundsowing
+    </select>
+
+    <insert id="insertRoundSowing">
+        insert into roundsowing values(#{roundSowing.roundId},#{roundSowing.roundPath},
+        #{roundSowing.roundPushtime},#{roundSowing.roundDescribe},#{roundSowing.roundStatus})
+    </insert>
+
+    <update id="updateRoundSowing">
+        update roundsowing
+        <set>
+            <if test='roundSowing.roundDescribe!=""'>
+                roundDescribe=#{roundSowing.roundDescribe},
+            </if>
+            <if test='roundSowing.roundPath!=""'>
+                roundPath=#{roundSowing.roundPath},
+            </if>
+            <if test='roundSowing.roundStatus!=""'>
+                roundStatus=#{roundSowing.roundStatus}
+            </if>
+        </set>
+        where roundId=#{roundSowing.roundId}
+    </update>
+</mapper>

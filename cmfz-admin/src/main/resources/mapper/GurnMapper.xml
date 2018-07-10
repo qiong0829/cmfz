@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.cmfz.dao.GuruDao">
+
+    <select id="selectAllGurn" resultType="com.baizhi.cmfz.entity.Guru">
+        select * from guru limit #{begin},#{end}
+    </select>
+
+    <select id="selectGuruCount" resultType="java.lang.Integer">
+        select count(*) from guru
+    </select>
+
+    <insert id="insertGuru">
+        insert into guru values(#{guru.guruId},#{guru.guruName},
+        #{guru.guruPicture},#{guru.guruBlurb})
+    </insert>
+
+    <update id="updateGuru">
+        update guru
+        <set>
+            <if test='guru.guruName!=""'>
+                guruName=#{guru.guruName},
+            </if>
+            <if test='guru.guruPicture!=""'>
+                guruPicture=#{guru.guruPicture},
+            </if>
+            <if test='guru.guruBlurb!=""'>
+                guruBlurb=#{guru.guruBlurb}
+            </if>
+        </set>
+        where guruId=#{guru.guruId}
+    </update>
+
+
+    <select id="selectFuzzyGuru" resultType="com.baizhi.cmfz.entity.Guru">
+        select * from guru
+        <where>
+            <if test='name=="guruName"'>
+                guruName like '%${value}%'
+            </if>
+            <if test='name=="all"'>
+                guruId like '%${value}%' or guruName like '%${value}%' or guruPicture like '%${value}%' or guruBlurb like '%${value}%'
+            </if>
+        </where>
+            limit #{begin},#{end}
+    </select>
+
+    <select id="selectFuzzyCount" resultType="java.lang.Integer">
+        select count(*) from guru
+        <where>
+            <if test='name=="guruName"'>
+                guruName like '%${value}%'
+            </if>
+            <if test='name=="all"'>
+                guruId like '%${value}%' or guruName like '%${value}%' or guruPicture like '%${value}%' or guruBlurb like '%${value}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAllGuru" resultType="com.baizhi.cmfz.entity.Guru">
+        select * from guru
+    </select>
+
+</mapper>
